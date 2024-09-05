@@ -3,7 +3,7 @@ from django.contrib import messages
 
 from blog.forms import PostForm
 from blog.models import Post
-from django.views.generic import ListView, DetailView, CreateView, UpdateView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 
 
@@ -64,6 +64,16 @@ class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         else:
             # User is not logged in
             return super().handle_no_permission()
+
+class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Post
+    success_url = "/"
+
+    def test_func(self):  # For UserPassesTestMixin (Refer Docs)
+        post = self.get_object()
+        if self.request.user == post.author:
+            return True
+        return False
 
 
 def about(request):
