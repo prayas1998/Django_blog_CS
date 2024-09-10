@@ -1,9 +1,8 @@
 {% extends "blog/base.html" %}
 
 {% block content %}
+<h1 class="mb-3">Post by {{ view.kwargs.username }} ({{ page_obj.paginator.count }})</h1>
 {% for post in posts %}
-
-
 <!--Made changes in the css for better design-->
 <article class="media content-section d-flex align-items-start">
     <img class="rounded-circle article-img" src="{{ post.author.profile.image.url }}" alt="">
@@ -43,21 +42,3 @@
 {% endif %}
 
 {% endblock content %}
-<!--We can simply write endblock but writing content tells us which block are we ending. It helps when there are multiple blocks in the webpage-->
-
-
-<!--Previous (Old-Corey Schafer) Code-->
-
-<!--<article class="media content-section">-->
-<!--    <img class="rounded-circle article-img" src="{{ post.author.profile.image.url }}" alt="">-->
-
-<!--    <div class="media-body">-->
-<!--        <div class="article-metadata">-->
-<!--            <a class="mr-2" href="#">{{ post.author }}</a>-->
-<!--            <small class="text-muted">{{ post.date_posted|date:"F d, Y" }}</small>-->
-<!--        </div>-->
-<!--        <h2><a class="article-title" href="#">{{ post.title }}</a></h2>-->
-
-<!--        <p class="article-content">{{ post.content }}</p>-->
-<!--    </div>-->
-<!--</article>-->
