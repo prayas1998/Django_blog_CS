@@ -22,12 +22,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-7by!w)0q&la7_h0(h=f08!ntui9@tl7g1^!-_92)lo8q7^fev%'
+# SECRET_KEY = 'django-insecure-7by!w)0q&la7_h0(h=f08!ntui9@tl7g1^!-_92)lo8q7^fev%'
+SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# DEBUG = True
+DEBUG = os.getenv('DEBUG_VALUE', 'True') == 'True'
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -79,11 +81,20 @@ WSGI_APPLICATION = 'django_blog.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
+''' SQLite database
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
+}
+'''
+
+# Reder PostgreSQL database (Live)
+import dj_database_url
+
+DATABASES = {
+    'default': dj_database_url.parse(os.getenv('DATABASE_URL'))
 }
 
 # Password validation
@@ -118,6 +129,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = 'static/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  # Where uploaded files will be located in our file system.
@@ -141,9 +153,9 @@ EMAIL_HOST_USER = os.getenv('EMAIL_USER')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_PASS')
 
 # Just for debugging
-print("These are username and passwords:")
-print(EMAIL_HOST_USER)
-print(EMAIL_HOST_PASSWORD)
+# print("These are username and passwords:")
+# print(EMAIL_HOST_USER)
+# print(EMAIL_HOST_PASSWORD)
 
 # django-storages docs: https://django-storages.readthedocs.io/en/latest/backends/amazon-S3.html
 AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
