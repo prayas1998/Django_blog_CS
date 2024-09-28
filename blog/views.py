@@ -7,6 +7,8 @@ from blog.models import Post
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 
+from helper import check_profanity
+
 
 def home(request):
     context = {
@@ -24,6 +26,7 @@ class PostListView(ListView):
     ordering = ['-date_posted']  # To show latest blogs on top
     paginate_by = 5
 
+
 class UserPostListView(ListView):
     model = Post
     template_name = 'blog/user_posts.html'  # <app>/<model>_<ViewType>.html
@@ -33,6 +36,7 @@ class UserPostListView(ListView):
     def get_queryset(self):
         user = get_object_or_404(User, username=self.kwargs.get('username'))
         return Post.objects.filter(author=user).order_by('-date_posted')
+
 
 class PostDetailView(DetailView):
     model = Post
@@ -47,6 +51,15 @@ class PostCreateView(LoginRequiredMixin, CreateView):
     # template_name = 'blog/post_form.html'  # <app_name>/<ModelMame>_form.html
 
     def form_valid(self, form):
+        # Grab 'title' and 'content' from cleaned_data
+        title = form.cleaned_data['title']
+        content = form.cleaned_data['content']
+
+        if check_profanity(title) or check_profanity(content):
+            messages.error(self.request, "Your post contains inappropriate content. Please revise and try again.",
+                           extra_tags='danger')
+            return self.form_invalid(form)
+
         form.instance.author = self.request.user
         return super().form_valid(form)  # Returns an 'HttpResponseRedirect'
 
@@ -56,6 +69,14 @@ class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     form_class = PostForm
 
     def form_valid(self, form):
+        # Grab 'title' and 'content' from cleaned_data
+        title = form.cleaned_data['title']
+        content = form.cleaned_data['content']
+
+        if check_profanity(title) or check_profanity(content):
+            messages.error(self.request, "Your post contains inappropriate content. Please revise and try again.",
+                           extra_tags='danger')
+            return self.form_invalid(form)
         form.instance.author = self.request.user
         return super().form_valid(form)
 
