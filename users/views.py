@@ -1,11 +1,11 @@
-from django.http import request
+# from django.http import request
 from django.shortcuts import render, redirect
 from django.contrib import messages
 
 from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
-from helper import check_nsfw_image
+from helper import check_image_nsfw
 
 
 def register(request):
@@ -33,17 +33,23 @@ def profile(request):
         u_form = UserUpdateForm(request.POST, instance=request.user)
         p_form = ProfileUpdateForm(request.POST, request.FILES, instance=request.user.profile)
         if u_form.is_valid() and p_form.is_valid():
-            # Check if the uploaded profile picture is NSFW
-            image_file = request.FILES.get('image')  # Fetch the image from the form
-            if image_file and check_nsfw_image(image_file):
-                messages.error(request, "The uploaded image contains inappropriate content.", extra_tags='danger')
-                return redirect('profile')
-            # If image is clean, save the forms
+            if 'image' in request.FILES:
+                uploaded_image = request.FILES['image']
+                is_nsfw = check_image_nsfw(uploaded_image)
+                if is_nsfw is None:
+                    messages.error(request, "An error occurred while processing the image. Please try again.",
+                                   extra_tags='danger')
+                    return redirect('profile')
+                elif is_nsfw:
+                    messages.error(request,
+                                   "The uploaded image contains inappropriate content. Please choose another image.",
+                                   extra_tags='danger')
+                    return redirect('profile')
+
             u_form.save()
             p_form.save()
-            messages.success(request, f"Your profile has been updated!")
+            messages.success(request, "Your profile has been updated!")
             return redirect('profile')
-
     else:
         u_form = UserUpdateForm(instance=request.user)
         p_form = ProfileUpdateForm(instance=request.user.profile)
