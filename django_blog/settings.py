@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 import os
 from pathlib import Path
+
+import dj_database_url
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -82,24 +84,50 @@ WSGI_APPLICATION = 'django_blog.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-''' SQLite database
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
-'''
+# SQLite database---------------------------------------------------
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
 
-# Reder PostgreSQL database (Live)
-import dj_database_url
 
-DATABASES = {
-    'default': dj_database_url.parse(os.getenv('DATABASE_URL'))
-}
+# Reder PostgreSQL database (Live) -------------------------------------
+# import dj_database_url
+#
+# DATABASES = {
+#     'default': dj_database_url.parse(os.getenv('DATABASE_URL'))
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
+
+# Docker postgres sql---------------------------------------------------
+# import dj_database_url
+#
+# DATABASES = {
+#     'default': dj_database_url.parse(os.getenv('DOCKER_DATABASE_URL'))
+# }
+
+import dj_database_url
+
+# Check the environment variable
+USE_DOCKER_DB = os.getenv('USE_DOCKER_DB', 'false') == 'True'
+if USE_DOCKER_DB:
+    # Docker postgres DB
+    DATABASES = {
+        'default': dj_database_url.parse(os.getenv('DOCKER_DATABASE_URL'))
+    }
+else:
+    # Django default db
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
+
 
 AUTH_PASSWORD_VALIDATORS = [
     {
