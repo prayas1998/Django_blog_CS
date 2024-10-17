@@ -24,11 +24,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-# SECRET_KEY = 'django-insecure-7by!w)0q&la7_h0(h=f08!ntui9@tl7g1^!-_92)lo8q7^fev%'
 SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 
-# SECURITY WARNING: don't run with debug turned on in production!
-# DEBUG = True
 DEBUG = os.getenv('DEBUG_VALUE', 'True') == 'True'
 
 ALLOWED_HOSTS = ['*']
@@ -81,53 +78,14 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'django_blog.wsgi.application'
 
-# Database
-# https://docs.djangoproject.com/en/5.0/ref/settings/#databases
-
-# SQLite database---------------------------------------------------
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
-
-
-# Reder PostgreSQL database (Live) -------------------------------------
-# import dj_database_url
-#
-# DATABASES = {
-#     'default': dj_database_url.parse(os.getenv('DATABASE_URL'))
-# }
-
-# Password validation
-# https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
-
-# Docker postgres sql---------------------------------------------------
-# import dj_database_url
-#
-# DATABASES = {
-#     'default': dj_database_url.parse(os.getenv('DOCKER_DATABASE_URL'))
-# }
-
 import dj_database_url
 
 # Check the environment variable
 USE_DOCKER_DB = os.getenv('USE_DOCKER_DB', 'false') == 'True'
-if USE_DOCKER_DB:
-    # Docker postgres DB
-    DATABASES = {
-        'default': dj_database_url.parse(os.getenv('DOCKER_DATABASE_URL'))
-    }
-else:
-    # Django default db
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
-        }
-    }
 
+DATABASES = {
+    'default': dj_database_url.parse(os.getenv('DOCKER_DATABASE_URL'))
+}
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -181,11 +139,6 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = os.getenv('EMAIL_USER')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_PASS')
-
-# Just for debugging
-# print("These are username and passwords:")
-# print(EMAIL_HOST_USER)
-# print(EMAIL_HOST_PASSWORD)
 
 # django-storages docs: https://django-storages.readthedocs.io/en/latest/backends/amazon-S3.html
 AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
