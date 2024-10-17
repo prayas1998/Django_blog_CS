@@ -21,6 +21,11 @@ services:
       - postgres_data:/var/lib/postgesql/data
     env_file:
       - .env
+    environment:
+      - POSTGRES_DB=${DOCKER_POSTGRES_DB}
+      - POSTGRES_USER=${DOCKER_POSTGRES_USER}
+      - POSTGRES_PASSWORD=${DOCKER_POSTGRES_PASSWORD}
+
 
   pgadmin:
     image: dpage/pgadmin4

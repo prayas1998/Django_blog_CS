@@ -28,7 +28,8 @@ SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 
 DEBUG = os.getenv('DEBUG_VALUE', 'True') == 'True'
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'temp-repo-production.up.railway.app']
+CSRF_TRUSTED_ORIGINS = ['https://temp-repo-production.up.railway.app']
 
 # Application definition
 
@@ -81,11 +82,21 @@ WSGI_APPLICATION = 'django_blog.wsgi.application'
 import dj_database_url
 
 # Check the environment variable
-USE_DOCKER_DB = os.getenv('USE_DOCKER_DB', 'false') == 'True'
+USE_DOCKER_DB = os.getenv('USE_DOCKER_DB', 'false') == 'True' # Will update
+# print("USE_DOCKER_DB:", os.getenv('USE_DOCKER_DB'))
+# print("DATABASE_URL:", os.getenv('DATABASE_URL'))
 
-DATABASES = {
-    'default': dj_database_url.parse(os.getenv('DOCKER_DATABASE_URL'))
-}
+if USE_DOCKER_DB:
+    DATABASES = {
+        'default': dj_database_url.parse(os.getenv('DOCKER_DATABASE_URL'))
+    }
+else:
+    DATABASES = {
+        'default': dj_database_url.parse(os.getenv('DATABASE_URL'),conn_max_age=1800)
+    }
+
+# parsed_db = dj_database_url.parse(os.getenv('DATABASE_URL'))
+# print("Parsed DB:", parsed_db)
 
 AUTH_PASSWORD_VALIDATORS = [
     {
