@@ -25,3 +25,4 @@ env.bak/
 .env
 venv.bak/
 db.sqlite3
+dump.sql
