@@ -28,8 +28,8 @@ SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 
 DEBUG = os.getenv('DEBUG_VALUE', 'True') == 'True'
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'temp-repo-production.up.railway.app']
-CSRF_TRUSTED_ORIGINS = ['https://temp-repo-production.up.railway.app']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'djangoblogcs-production.up.railway.app']
+CSRF_TRUSTED_ORIGINS = ['https://djangoblogcs-production.up.railway.app']
 
 # Application definition
 
