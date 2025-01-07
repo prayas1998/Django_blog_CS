@@ -28,7 +28,7 @@ SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 
 DEBUG = os.getenv('DEBUG_VALUE', 'True') == 'True'
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'djangoblogcs-production.up.railway.app']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'djangoblogcs-production.up.railway.app', 'djangoblogapp-0sgl.onrender.com']
 CSRF_TRUSTED_ORIGINS = ['https://djangoblogcs-production.up.railway.app']
 
 # Application definition
