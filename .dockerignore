@@ -26,3 +26,5 @@ env.bak/
 venv.bak/
 db.sqlite3
 dump.sql
+blog_data.json
+users_data.json
