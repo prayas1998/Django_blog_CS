@@ -1,63 +1,54 @@
-{% extends "blog/base.html" %}
-
-{% block content %}
-{% for post in posts %}
-
-
-<!--Made changes in the css for better design-->
-<article class="media content-section d-flex align-items-start">
-    <img class="rounded-circle article-img" src="{{ post.author.profile.image.url }}" alt="">
-    <div class="media-body">
+{% extends 'blog/base.html' %} {% block content %}
+  {% for post in posts %}
+    <!-- Made changes in the css for better design -->
+    <article class="media content-section d-flex align-items-start">
+      <img class="rounded-circle article-img" src="{{ post.author.profile.image.url }}" alt="" />
+      <div class="media-body">
         <div class="article-metadata">
-            <a class="mr-2" href="{% url 'user-posts' post.author.username %}">{{ post.author }}</a>
-            <small class="text-muted">{{ post.date_posted|date:"F d, Y" }}</small>
+          <a class="mr-2" href="{% url 'user-posts' post.author.username %}">{{ post.author }}</a>
+          <small class="text-muted">{{ post.date_posted|date:'F d, Y' }}</small>
         </div>
         <h2><a class="article-title" href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h2>
         <p class="article-content">{{ post.content }}</p>
-    </div>
-</article>
+      </div>
+    </article>
+  {% endfor %}
 
-
-{% endfor %}
-
-<!--Pagination Login-->
-{% if is_paginated %}
+  <!-- Pagination Login -->
+  {% if is_paginated %}
     {% if page_obj.has_previous %}
-        <a class="btn btn-outline-primary mb-4" href="?page=1">Jump to First page</a>
-        <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+      <a class="btn btn-outline-primary mb-4" href="?page=1">Jump to First page</a>
+      <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.previous_page_number }}">Previous</a>
     {% endif %}
 
     {% for num in page_obj.paginator.page_range %}
-        {% if page_obj.number == num %}
-            <a class="btn btn-info mb-4" href="?page={{ num }}">{{ num }}</a>
-        {% elif num > page_obj.number|add:'-4' and num < page_obj.number|add:'4' %}
-            <a class="btn btn-outline-info mb-4" href="?page={{ num }}">{{ num }}</a>
-        {% endif %}
+      {% if page_obj.number == num %}
+        <a class="btn btn-info mb-4" href="?page={{ num }}">{{ num }}</a>
+      {% elif num > page_obj.number|add:'-4' and num < page_obj.number|add:'4' %}
+        <a class="btn btn-outline-info mb-4" href="?page={{ num }}">{{ num }}</a>
+      {% endif %}
     {% endfor %}
 
-
     {% if page_obj.has_next %}
-        <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.next_page_number }}">Next</a>
-        <a class="btn btn-outline-primary mb-4" href="?page={{ page_obj.paginator.num_pages }}">Jump to Last page</a>
+      <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.next_page_number }}">Next</a>
+      <a class="btn btn-outline-primary mb-4" href="?page={{ page_obj.paginator.num_pages }}">Jump to Last page</a>
     {% endif %}
-{% endif %}
+  {% endif %}
+{% endblock %}
+<!-- We can simply write endblock but writing content tells us which block are we ending. It helps when there are multiple blocks in the webpage -->
 
-{% endblock content %}
-<!--We can simply write endblock but writing content tells us which block are we ending. It helps when there are multiple blocks in the webpage-->
+<!-- Previous (Old-Corey Schafer) Code -->
 
+<!-- <article class="media content-section"> -->
+<!-- <img class="rounded-circle article-img" src="{{ post.author.profile.image.url }}" alt=""> -->
 
-<!--Previous (Old-Corey Schafer) Code-->
+<!-- <div class="media-body"> -->
+<!-- <div class="article-metadata"> -->
+<!-- <a class="mr-2" href="#">{{ post.author }}</a> -->
+<!-- <small class="text-muted">{{ post.date_posted|date:"F d, Y" }}</small> -->
+<!-- </div> -->
+<!-- <h2><a class="article-title" href="#">{{ post.title }}</a></h2> -->
 
-<!--<article class="media content-section">-->
-<!--    <img class="rounded-circle article-img" src="{{ post.author.profile.image.url }}" alt="">-->
-
-<!--    <div class="media-body">-->
-<!--        <div class="article-metadata">-->
-<!--            <a class="mr-2" href="#">{{ post.author }}</a>-->
-<!--            <small class="text-muted">{{ post.date_posted|date:"F d, Y" }}</small>-->
-<!--        </div>-->
-<!--        <h2><a class="article-title" href="#">{{ post.title }}</a></h2>-->
-
-<!--        <p class="article-content">{{ post.content }}</p>-->
-<!--    </div>-->
-<!--</article>-->
+<!-- <p class="article-content">{{ post.content }}</p> -->
+<!-- </div> -->
+<!-- </article> -->

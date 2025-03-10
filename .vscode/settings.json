@@ -1,0 +1,20 @@
+{
+    "python.analysis.typeCheckingMode": "off",
+    "djlint.formatJs": true,
+    "djlint.formatCss": true,
+    "djlint.formatLanguages": [
+        "django-html",
+        "jinja",
+        "jinja-html",
+        "nj",
+        "njk",
+        "nunjucks",
+        "twig",
+        "handlebars",
+        "hbs",
+        "mustache",
+        "html",
+        "python"
+    ],
+    "editor.inlayHints.enabled": "offUnlessPressed"
+}

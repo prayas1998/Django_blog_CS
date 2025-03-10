@@ -4,7 +4,9 @@ from django.dispatch import receiver  # receiver of signal
 from .models import Profile
 
 
-@receiver(post_save,sender=User)  # When user is saved send this signal. This signal is received triggers create_profile signal
+@receiver(
+    post_save, sender=User
+)  # When user is saved send this signal. This signal is received triggers create_profile signal
 def create_profile(sender, instance, created, **kwargs):
     if created:
         Profile.objects.create(user=instance)

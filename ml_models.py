@@ -11,7 +11,9 @@ class CachedNSFWModel:
         return cls._instance
 
     def __init__(self):
-        self.classifier = pipeline("image-classification", model="Falconsai/nsfw_image_detection")
+        self.classifier = pipeline(
+            "image-classification", model="Falconsai/nsfw_image_detection"
+        )
 
     def classify(self, image):
         return self.classifier(image)[0]

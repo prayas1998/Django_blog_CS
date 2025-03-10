@@ -1,7 +1,59 @@
-{% extends "blog/base.html" %}
+{% extends 'blog/base.html' %} {% block content %}
+  {% comment %}
+  <h1>About Page</h1>
+  {% endcomment %}
+  <div class="about-container">
+    <section class="project-overview">
+      <h2>Project Overview</h2>
+      <p>This platform is a full-featured blog application built with Django, designed to provide a seamless experience for users to share their thoughts, ideas, and stories.</p>
+    </section>
 
+    <section class="key-features">
+      {% comment %} <h2>Key Features</h2> {% endcomment %}
+      <section class="tech-stack">
+        <h2>Technical Implementation</h2>
+        <ul>
+          <li>Built with Django framework for robust back-end functionality</li>
+          <li>Uses PostgreSQL from Supabase as backend database service</li>
+          <li>AWS S3 integration for scalable file and image storage</li>
+          <li>Implemented content moderation using Hugging Face AI models to detect profanity in posts and images</li>
+          <li>Class-based views for efficient code organization</li>
+          <li>Django's built-in authentication system with customizations</li>
+          <li>Created user profile pages with credential management and profile picture customization</li>
+          <li>Responsive front-end design with modern CSS</li>
+        </ul>
+      </section>
 
-{% block content %}
-<h1>About Page</h1>
-{% endblock content %}
+      <div class="feature-group">
+        <h3>User Management</h3>
+        <ul>
+          <li>Secure user registration and authentication</li>
+          <li>Personalized user profiles with customizable images</li>
+          <li>Profile management and updates</li>
+        </ul>
+      </div>
 
+      <div class="feature-group">
+        <h3>Content Creation & Management</h3>
+        <ul>
+          <li>Create, edit, and delete blog posts</li>
+          <li>Rich text formatting for blog content</li>
+          <li>Content moderation with profanity filtering</li>
+          <li>Image upload with content safety verification</li>
+        </ul>
+      </div>
+
+      <div class="feature-group">
+        <h3>User Experience</h3>
+        <ul>
+          <li>Mobile-responsive design</li>
+          <li>Pagination for easy navigation through content</li>
+          <li>User-specific content views to browse posts by author</li>
+          <li>Intuitive interface for both readers and content creators</li>
+        </ul>
+      </div>
+    </section>
+
+    <hr />
+  </div>
+{% endblock %}
