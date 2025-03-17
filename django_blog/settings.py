@@ -36,6 +36,7 @@ ALLOWED_HOSTS = [
     "djangoblogapp-0sgl.onrender.com",
     "db.xcenbwflpnnqddftdbpb.supabase.co",
     "django-blog-supabase.onrender.com",
+    ".vercel.app",
 ]
 CSRF_TRUSTED_ORIGINS = ["https://djangoblogcs-production.up.railway.app"]
 
