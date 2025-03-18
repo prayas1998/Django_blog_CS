@@ -11,6 +11,11 @@ dump.sql
 blog_data.json
 users_data.json
 backup.dump
+media/
+.vscode/
+.dockerignore
+dockerfile
+docker-compose.yml
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
